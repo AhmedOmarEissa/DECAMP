@@ -1,3 +1,5 @@
 .ipynb_checkpoints/
 Week1/Docker/Docker_sql/ny_taxi_postgres_data/
 *.csv
+Week2/airflow/dags/__pycache__
+Week2/airflow/logs

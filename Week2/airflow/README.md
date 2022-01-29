@@ -1,56 +1,50 @@
-## Week 2: Data Ingestion
+### Setup
 
-### Data Lake (GCS)
+[Airflow Setup with Docker](1_setup.md)
 
-* What is a Data Lake
-* ELT vs. ETL
-* Alternatives to components (S3/HDFS, Redshift, Snowflake etc.)
-* [Video](https://www.youtube.com/watch?v=W3Zm6rjOq70&list=PL3MmuxUbc_hJed7dXYoJw8DoCuVHhGEQb)
-* [Slides](https://docs.google.com/presentation/d/1RkH-YhBz2apIjYZAxUz2Uks4Pt51-fVWVN9CcH9ckyY/edit?usp=sharing)
+### Execution
 
-
-### Introduction to Workflow orchestration
-
-* What is an Orchestration Pipeline?
-* What is a DAG?
-* [Video](https://www.youtube.com/watch?v=0yK7LXwYeD0&list=PL3MmuxUbc_hJed7dXYoJw8DoCuVHhGEQb)
+1. Build the image (only first-time, or when there's any change in the `Dockerfile`):
+Takes ~15 mins for the first-time
+use ```shell
+docker-compose up
+```
 
 
-### Setting up Airflow locally
-
-* Setting up Airflow with Docker-Compose
-* [Video](https://www.youtube.com/watch?v=lqDMzReAtrw&list=PL3MmuxUbc_hJed7dXYoJw8DoCuVHhGEQb)
-* More information in the [airflow folder](airflow)
+```shell
+docker-compose build
+```
 
 
-### Ingesting data to GCP with Airflow
+or (for legacy versions)
+```shell
+docker build .
+```
 
-* Extraction: Download and unpack the data
-* Pre-processing: Convert this raw data to parquet
-* Upload the parquet files to GCS
-* Create an external table in BigQuery
-* [Video](https://www.youtube.com/watch?v=9ksX9REfL8w&list=PL3MmuxUbc_hJed7dXYoJw8DoCuVHhGEQb&index=19)
+2. Initialize the Airflow scheduler, DB, and other config
+```shell
+docker-compose up airflow-init
+```
 
-### Ingesting data to Local Postgres with Airflow
+3. Kick up the all the services from the container:
+```shell
+docker-compose up
+```
 
-* Converting the ingestion script for loading data to Postgres to Airflow DAG
-* [Video](https://www.youtube.com/watch?v=s2U8MWJH5xA&list=PL3MmuxUbc_hJed7dXYoJw8DoCuVHhGEQb)
+4. Login to Airflow web UI on `localhost:8080` with default creds: `user_name:airflow/passwords:airflow`
 
+5. Run your DAG on the Web Console.
 
-### Transfer service (AWS -> GCP)
+6. On finishing your run or to shut down the container/s:
+```shell
+docker-compose down
+```
 
-Moving files from AWS to GCP.
+For more info, check out these official docs:
+   * https://airflow.apache.org/docs/apache-airflow/stable/start/docker.html
+   * https://airflow.apache.org/docs/docker-stack/build.html
+   * https://airflow.apache.org/docs/docker-stack/recipes.html
+   
 
-You will need an AWS account for this. This section is optional
-
-* [Video 1](https://www.youtube.com/watch?v=rFOFTfD1uGk&list=PL3MmuxUbc_hJed7dXYoJw8DoCuVHhGEQb)
-* [Video 2](https://www.youtube.com/watch?v=VhmmbqpIzeI&list=PL3MmuxUbc_hJed7dXYoJw8DoCuVHhGEQb)
-
-
-## Community notes
-
-Did you take notes? You can share them here.
-
-* [Notes from Alvaro Navas](https://github.com/ziritrion/dataeng-zoomcamp/blob/main/notes/2_data_ingestion.md)
-* [Notes from Aaron Wright](https://github.com/ABZ-Aaron/DataEngineerZoomCamp/blob/master/week_2_data_ingestion/README.md)
-* Add your notes here
+### Future Enhancements
+* Deploy self-hosted Airflow setup on Kubernetes cluster, or use a Managed Airflow (Cloud Composer) service by GCP
