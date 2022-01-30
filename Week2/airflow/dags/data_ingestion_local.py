@@ -38,24 +38,24 @@ with local_workflow:
         bash_command=f'curl -sSL {URL_TEMPLATE} > {OUTPUT_FILE_TEMPLATE}'
     )
 
-    ingest_task  = BashOperator(
+    show_directory  = BashOperator(
 
-        task_id = 'ingest', 
+        task_id = 'show directory', 
         bash_command = f'ls {AIRFLOW_HOME}'
 
     )
-    # ingest_task = PythonOperator(
-    #     task_id="ingest",
-    #     python_callable=ingest_callable,
-    #     op_kwargs=dict(
-    #         user=PG_USER,
-    #         password=PG_PASSWORD,
-    #         host=PG_HOST,
-    #         port=PG_PORT,
-    #         db=PG_DATABASE,
-    #         table_name=TABLE_NAME_TEMPLATE,
-    #         csv_file=OUTPUT_FILE_TEMPLATE
-    #    ),
-    #)
+    ingest_task = PythonOperator(
+        task_id="ingest",
+        python_callable=ingest_callable,
+        op_kwargs=dict(
+            user=PG_USER,
+            password=PG_PASSWORD,
+            host=PG_HOST,
+            port=PG_PORT,
+            db=PG_DATABASE,
+            table_name=TABLE_NAME_TEMPLATE,
+            csv_file=OUTPUT_FILE_TEMPLATE
+       ),
+    )
 
-    wget_task >> ingest_task
+    wget_task >> show_directory >> ingest_task
