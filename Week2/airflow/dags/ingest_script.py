@@ -16,9 +16,12 @@ def ingest_callable(user, password, host, port, db, table_name, csv_file, execut
 
     t_start = time()
     df_iter = pd.read_csv(csv_file, iterator=True, chunksize=100000)
+    #print(df_iter.columns)
+
 
     df = next(df_iter)
 
+    print(df.columns)
     df.tpep_pickup_datetime = pd.to_datetime(df.tpep_pickup_datetime)
     df.tpep_dropoff_datetime = pd.to_datetime(df.tpep_dropoff_datetime)
 

@@ -24,8 +24,10 @@ local_workflow = DAG(
     "LocalIngestionDag",
     schedule_interval="0 6 2 * *",
     start_date=datetime(2021, 1, 1)
+    
 )
-
+#https://s3.amazonaws.com/nyc-tlc/trip+data/yellow_tripdata_2021-02.csv
+#curl -sSL https://s3.amazonaws.com/nyc-tlc/trip+data/yellow_tripdata_2021-10.csv > output_2021-10.csv
 
 URL_PREFIX = 'https://s3.amazonaws.com/nyc-tlc/trip+data' 
 URL_TEMPLATE = URL_PREFIX + '/yellow_tripdata_{{ execution_date.strftime(\'%Y-%m\') }}.csv'
@@ -40,7 +42,7 @@ with local_workflow:
 
     show_directory  = BashOperator(
 
-        task_id = 'show directory', 
+        task_id = 'show_directory', 
         bash_command = f'ls {AIRFLOW_HOME}'
 
     )

@@ -56,6 +56,9 @@ docker rm 5cab6731d072870e0ab11bdd1b7fb02842761c320106ae0c146a35a20ec990bb
 docker kill 6b52da1c9d3b
 docker network ls
 
+
+https://stackoverflow.com/questions/38088279/communication-between-multiple-docker-compose-projects
+
 ## CONDA
 conda info --envs
 
